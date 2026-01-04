@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UrbanMind Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand">🏙️ UrbanMind</div>
+        
+        <div class="card">
+            <h3>Population Density</h3>
+            <div class="density-control">
+                <input type="number" id="densityInput" value="1000" min="100" max="5000">
+                <span class="unit">ppl/km²</span>
+            </div>
+            <input type="range" id="densitySlider" min="100" max="5000" value="1000">
+            <div class="btn-group">
+                <button onclick="calculateCoverage()" class="btn-action primary">
+                    <i class="fas fa-calculator"></i> Calculate
+                </button>
+                <button onclick="clearCoverage()" class="btn-action secondary">
+                    <i class="fas fa-eye-slash"></i> Hide
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Project Boundary</h3>
+            <p class="desc">Extend or adjust the project area.</p>
+            <div class="btn-group">
+                <button onclick="enableBoundaryEdit()" id="btn-edit-boundary" class="btn-action secondary">
+                    <i class="fas fa-pen-to-square"></i> Edit Area
+                </button>
+                <button onclick="saveBoundary()" id="btn-save-boundary" class="btn-action primary" style="display:none;">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button onclick="resetBoundary()" class="btn-action secondary" title="Reset to Auto">
+                    <i class="fas fa-undo"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Builder Mode</h3>
+            <select id="builderService">
+                <option value="" disabled selected>-- Select Service --</option>
+                <option value="hospital">🏥 Hospital</option>
+                <option value="school">🏫 School</option>
+                <option value="atm">🏧 ATM</option>
+                <option value="bank">🏦 Bank</option>
+                <option value="park">🌳 Park</option>
+                <option value="police">👮 Police Station</option>
+                <option value="fire_station">🚒 Fire Station</option>
+            </select>
+            
+            <button id="toggleBuildBtn" onclick="toggleBuildMode()" class="btn-full">
+                📍 Enable Build Mode
+            </button>
+            <div id="mode-status">Status: View Only</div>
+        </div>
+
+        <div class="card">
+            <h3>Distribution</h3>
+            <div id="chart_div"></div>
+        </div>
+        
+        <div class="card">
+            <a href="/api/export_shp" class="btn-secondary" style="text-decoration:none; display:block; text-align:center;">
+                ⬇ Export Shapefile (.zip)
+            </a>
+        </div>
+        
+        <a href="/" class="btn-action secondary" style="margin-top:auto;">
+            <i class="fas fa-cloud-upload-alt"></i> Upload New File
+        </a>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>  

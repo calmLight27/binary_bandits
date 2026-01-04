@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+geopandas
+shapely
+python-multipart
+python-dotenv
+jinja2
+httpx
+libsql-experimental

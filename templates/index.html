@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UrbanMind - Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="home-body">
+    <div class="glass-container">
+        <h1>🏙️ UrbanMind</h1>
+        <p>Smart City Allocator</p>
+        <p class="subtext">Upload GIS Shapefiles to analyze service coverage gaps.</p>
+        
+        <form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+            <label>Service Type</label>
+            <select name="category">
+                <option value="hospital">Hospital</option>
+                <option value="school">School</option>
+                <option value="atm">ATM</option>
+                <option value="petrol_pump">Petrol Pump</option>
+            </select>
+            
+            <label>Shapefile (.zip only)</label>
+            <input type="file" name="file" accept=".zip" required>
+            
+            <button type="submit">Upload & Analyze ➜</button>
+        </form>
+        
+        <a href="/dashboard" class="skip-link">Skip to Dashboard</a>
+    </div>
+</body>
+</html>

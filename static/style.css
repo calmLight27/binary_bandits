@@ -1,0 +1,171 @@
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+:root {
+    --primary: #3b82f6;       /* Bright Blue */
+    --primary-dark: #1d4ed8;  /* Deep Blue */
+    --bg-sidebar: #ffffff;    /* Pure White Sidebar */
+    --bg-body: #f3f4f6;       /* Light Gray Map Bg */
+    --text-main: #111827;     /* Almost Black */
+    --text-sub: #6b7280;      /* Gray Text */
+    --border: #e5e7eb;        /* Light Border */
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+/* =========================================
+   2. LANDING PAGE (FIXED CONTRAST)
+   ========================================= */
+.home-body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    display: flex; justify-content: center; align-items: center; width: 100vw;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.glass-container h1 { margin-bottom: 5px; font-weight: 800; font-size: 2.2em; }
+.subtext { color: #cbd5e1; font-size: 0.9em; margin-bottom: 25px; }
+
+/* FIX: Force Inputs to be White/Readable */
+.upload-form label { 
+    display: block; text-align: left; font-size: 0.75em; 
+    font-weight: 700; color: #94a3b8; margin-bottom: 5px; letter-spacing: 0.5px;
+}
+
+.upload-form select, .upload-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #1e293b; /* Dark Blue background */
+    color: white;        /* White Text */
+    font-size: 0.95em;
+    outline: none;
+    box-sizing: border-box; /* Prevents overflow */
+}
+
+/* Specific fix for file upload button color */
+.upload-form input[type="file"] {
+    background: white; 
+    color: #333;
+}
+
+.upload-form button {
+    width: 100%; padding: 12px; margin-top: 5px;
+    background: var(--primary); color: white; border: none; 
+    border-radius: 8px; font-weight: 600; cursor: pointer;
+    font-size: 1em; transition: 0.2s;
+}
+.upload-form button:hover { background: var(--primary-dark); }
+
+.skip-link { 
+    display: block; margin-top: 20px; color: #60a5fa; 
+    text-decoration: none; font-size: 0.9em; font-weight: 500;
+}
+.skip-link:hover { text-decoration: underline; color: #93c5fd; }
+
+/* =========================================
+   3. DASHBOARD (CLEAN LOOK)
+   ========================================= */
+body:not(.home-body) { display: flex; flex-direction: row; }
+
+.sidebar {
+    width: 320px;
+    background: var(--bg-sidebar);
+    padding: 20px;
+    z-index: 1000;
+    display: flex; flex-direction: column; gap: 15px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto; 
+    height: 100%; 
+    box-sizing: border-box;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.03);
+}
+
+#map { flex-grow: 1; height: 100%; width: 100%; }
+
+/* --- Sidebar Components --- */
+.brand { 
+    font-size: 1.4em; font-weight: 800; color: var(--text-main); 
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px; 
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.05); */ /* Flatter look */
+}
+
+h3 {
+    margin: 0 0 10px 0; font-size: 0.7em; text-transform: uppercase; 
+    color: var(--text-sub); font-weight: 700; letter-spacing: 0.5px;
+}
+
+.desc { font-size: 0.85em; color: var(--text-sub); margin-bottom: 12px; line-height: 1.4; }
+
+/* Inputs & Sliders */
+.density-control { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.density-control input {
+    width: 70px; padding: 6px; border: 1px solid var(--border);
+    border-radius: 6px; font-weight: 600; text-align: center; color: var(--primary);
+}
+
+/* Buttons */
+.btn-group { display: flex; gap: 8px; margin-top: 10px; }
+.btn-action {
+    flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
+    cursor: pointer; font-size: 0.85em; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: white; color: var(--text-main); transition: 0.1s;
+}
+.btn-action:hover { background: #f9fafb; border-color: #d1d5db; }
+
+.primary { background: var(--primary); color: white; border: none; }
+.primary:hover { background: var(--primary-dark); border: none; }
+
+/* Builder Dropdown */
+select#builderService {
+    width: 100%; padding: 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: #f9fafb;
+    font-size: 0.9em; margin-bottom: 10px; cursor: pointer;
+}
+
+.btn-full {
+    width: 100%; background: #111827; color: white; padding: 10px;
+    border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+}
+.btn-full:hover { background: #374151; }
+
+/* Status */
+#mode-status {
+    background: #f3f4f6; padding: 8px; border-radius: 6px;
+    text-align: center; font-size: 0.75em; color: var(--text-sub); margin-top: 8px;
+}
+
+/* Popup & Cursor */
+.crosshair-cursor-enabled { cursor: crosshair !important; }
+.popup-form { display: flex; flex-direction: column; gap: 8px; min-width: 200px; }
+.popup-form input { padding: 5px; border: 1px solid var(--border); border-radius: 4px; }
+.popup-actions { display: flex; gap: 5px; margin-top: 5px; }
+.btn-save { background: #10b981; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; cursor: pointer; }
+.btn-del { background: #ef4444; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; cursor: pointer; }

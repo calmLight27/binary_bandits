@@ -79,4 +79,3 @@ uvicorn main:app --reload
 2.  **Install** (Get the libraries like FastAPI and GeoPandas)
 3.  **Run** (Start the server)
 
-This is the standard "Happy Path" for any Python project!

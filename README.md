@@ -54,7 +54,7 @@ $$Range = R_{base} \times \sqrt{\frac{1000}{Density_{local}}} \times \frac{Capac
 * **Note for Windows Users:** Installing `geopandas` via pip can be difficult. Using `conda` is recommended.
 
 ### 1. Clone the Repository
-```bash
+'''bash
 git clone https://github.com/calmLight27/binary_bandits.git
 cd binary_bandits'''
 

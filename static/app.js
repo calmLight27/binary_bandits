@@ -7,7 +7,7 @@ google.charts.setOnLoadCallback(() => calculateCoverage());
 
 // Layers
 let markerLayer = L.markerClusterGroup({
-    disableClusteringAtZoom: 16, // Show actual pins when zoomed in close
+    disableClusteringAtZoom: 16, 
     spiderfyOnMaxZoom: false
 }).addTo(map);
 let unionLayer = L.layerGroup().addTo(map);
@@ -15,10 +15,6 @@ let polyLayer = L.layerGroup().addTo(map);
 let boundaryLayer = new L.FeatureGroup().addTo(map);
 
 // State
-let mode = null; 
-let selectedType = null;
-let tempPolyPoints = []; 
-let tempPolyLine = null;
 let currentBoundaryItem = null;
 
 // --- COLOR GENERATOR ---
@@ -46,7 +42,6 @@ async function calculateCoverage() {
 }
 
 function updateVisuals(data, showRanges) {
-    // 1. CLEAR LAYERS TO PREVENT DUPLICATES
     markerLayer.clearLayers();
     unionLayer.clearLayers();
     polyLayer.clearLayers();
@@ -54,12 +49,11 @@ function updateVisuals(data, showRanges) {
     
     if (data.length === 0) return;
 
-    // Separate Boundary from Services
     const services = data.filter(d => d.category !== 'project_boundary');
     const boundary = data.find(d => d.category === 'project_boundary');
     currentBoundaryItem = boundary;
 
-    // Draw Boundary (Auto or Custom)
+    // Draw Boundary
     if (boundary && boundary.shape_data) {
         const poly = L.polygon(boundary.shape_data, {
             color: "#333", dashArray: "10, 10", fill: false, weight: 2
@@ -93,17 +87,12 @@ function updateVisuals(data, showRanges) {
                     html: `<div style="background-color:${color}; width:12px; height:12px; border-radius:50%; border:2px solid white; box-shadow:0 0 4px rgba(0,0,0,0.5);"></div>`
                 });
                 
-                // DRAGGABLE MARKER LOGIC
                 const marker = L.marker([item.lat, item.lon], { icon: icon, draggable: true })
                     .bindPopup(createEditPopup(item))
                     .addTo(markerLayer);
 
-                // Handle Drag End - Update DB
                 marker.on('dragend', async (e) => {
-                    const newLat = e.target.getLatLng().lat;
-                    const newLon = e.target.getLatLng().lng;
-                    // We simply update backend. Next refresh will redraw it in new spot.
-                    await updateService(item.id, { lat: newLat, lon: newLon });
+                    await updateService(item.id, { lat: e.target.getLatLng().lat, lon: e.target.getLatLng().lng });
                 });
 
                 if (showRanges) {
@@ -112,7 +101,7 @@ function updateVisuals(data, showRanges) {
             }
         });
 
-        // Union Logic
+        // Range Union
         if (showRanges && rangePolys.length > 0) {
             if (rangePolys.length < 300) {
                 try {
@@ -122,9 +111,8 @@ function updateVisuals(data, showRanges) {
                         style: { color: color, fillColor: color, fillOpacity: 0.15, weight: 1 },
                         interactive: false
                     }).addTo(unionLayer);
-                } catch(e) { console.warn("Union failed", e); }
+                } catch(e) {}
             } else {
-                // Too many points? Just draw simple circles without merging (faster)
                 rangePolys.forEach(poly => {
                     L.geoJSON(poly, {
                          style: { color: color, fillColor: color, fillOpacity: 0.1, weight: 0 },
@@ -138,49 +126,83 @@ function updateVisuals(data, showRanges) {
     drawChart(services);
 }
 
-// --- BUILDER MODES ---
-function toggleBuildMode() {
-    resetModes();
-    const sel = document.getElementById('builderService');
-    if(!sel.value) { alert("Select type first"); return; }
+// --- BUILDER MODE (FIXED & NUCLEAR) ---
+let isBuilderMode = false; 
+
+function toggleBuilderMode() {
+    const btn = document.getElementById("builder-btn");
+    const status = document.getElementById("builder-status");
+    const sel = document.getElementById('builderService'); 
     
-    mode = 'point';
-    selectedType = sel.value;
-    updateStatus(`Click map to place <b>${selectedType}</b>`);
-    L.DomUtil.addClass(map.getContainer(), 'crosshair-cursor-enabled');
-}
-
-function resetModes() {
-    mode = null; selectedType = null;
-    L.DomUtil.removeClass(map.getContainer(), 'crosshair-cursor-enabled');
-    updateStatus("View Only");
-}
-
-function updateStatus(msg) { document.getElementById('mode-status').innerHTML = msg; }
-
-// MAP CLICK HANDLER (BUILDER)
-map.on('click', async function(e) {
-    if (!mode) return;
-
-    if (mode === 'point') {
-        const name = prompt(`Name for new ${selectedType}?`, "New Facility");
-        if(!name) return;
-        
-        // NEW: Ask for Capacity
-        const capStr = prompt(`Capacity for ${name}? (Scale 1-100)`, "50");
-        const cap = parseInt(capStr) || 50;
-        
-        await apiAdd({
-            name: name, 
-            category: selectedType, 
-            geom_type: 'point',
-            lat: e.latlng.lat, 
-            lon: e.latlng.lng,
-            capacity: cap // <--- SEND CAPACITY
-        });
-        resetModes();
+    // Check if selection exists
+    if (!isBuilderMode && !sel.value) { 
+        alert("⚠️ Please select a service type first (e.g., Hospital)!"); 
+        return; 
     }
-});
+
+    isBuilderMode = !isBuilderMode; // Toggle State
+
+    if (isBuilderMode) {
+        // --- TURN ON ---
+        
+        // 1. Button Visuals
+        btn.innerHTML = "🚫 Stop Building";
+        btn.style.background = "#e74c3c"; 
+        btn.style.borderColor = "#c0392b";
+        
+        // 2. FORCE CROSSHAIR CURSOR (Inject Style Tag)
+        const style = document.createElement('style');
+        style.id = 'cursor-override';
+        style.innerHTML = `#map, #map * { cursor: crosshair !important; }`;
+        document.head.appendChild(style);
+        
+        // 3. Status Text
+        if(status) status.innerHTML = `Status: Placing <b>${sel.value}</b>`;
+        
+        // 4. Start Listening
+        map.on('click', handleMapClick);
+
+    } else {
+        // --- TURN OFF ---
+
+        // 1. Reset Button
+        btn.innerHTML = "📍 Enable Build Mode";
+        btn.style.background = ""; 
+        btn.style.borderColor = "";
+        
+        // 2. Remove Cursor Override
+        const style = document.getElementById('cursor-override');
+        if (style) style.remove();
+        
+        // 3. Reset Status
+        if(status) status.innerText = "Status: View Only";
+
+        // 4. Stop Listening
+        map.off('click', handleMapClick);
+    }
+}
+
+async function handleMapClick(e) {
+    if (!isBuilderMode) return;
+
+    const sel = document.getElementById('builderService');
+    const category = sel.value;
+
+    const name = prompt(`Name for new ${category}?`, "New Facility");
+    if (!name) return; 
+
+    const capStr = prompt(`Capacity for ${name}? (Scale 1-100)`, "50");
+    const capacity = parseInt(capStr) || 50;
+
+    await apiAdd({
+        name: name,
+        category: category,
+        lat: e.latlng.lat,
+        lon: e.latlng.lng,
+        capacity: capacity,
+        geom_type: 'point'
+    });
+}
 
 // --- BOUNDARY EDITING ---
 function enableBoundaryEdit() {
@@ -234,8 +256,6 @@ async function updateService(id, payload) {
         method: 'PUT', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload)
     });
-    // Note: We do NOT call calculateCoverage() here automatically if dragging 
-    // to prevent jitter, but you can if you want instant range updates.
     calculateCoverage(); 
 }
 
@@ -275,4 +295,3 @@ function drawChart(data) {
     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
     chart.draw(google.visualization.arrayToDataTable(chartData), { pieHole: 0.4, legend: 'none', chartArea:{width:'90%',height:'90%'} });
 }
-window.exportData = function() { window.location.href = "/api/export"; }

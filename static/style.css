@@ -169,3 +169,29 @@ select#builderService {
 .popup-actions { display: flex; gap: 5px; margin-top: 5px; }
 .btn-save { background: #10b981; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; cursor: pointer; }
 .btn-del { background: #ef4444; color: white; border: none; padding: 6px; border-radius: 4px; flex: 1; cursor: pointer; }
+
+/* FORCE Crosshair cursor when building */
+.crosshair-cursor-enabled,
+.crosshair-cursor-enabled .leaflet-interactive,
+.crosshair-cursor-enabled .leaflet-grab {
+    cursor: crosshair !important;
+}
+
+/* Button Active State (Red) */
+.btn-stop-building {
+    background-color: #e74c3c !important; /* Red */
+    border-color: #c0392b !important;
+    color: white !important;
+}
+
+/* Make the Builder Button look like the others */
+#builder-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}

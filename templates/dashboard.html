@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
@@ -59,7 +60,8 @@
 
         <div class="card">
             <h3>Builder Mode</h3>
-            <select id="builderService">
+            
+            <select id="builderService" style="width: 100%; padding: 8px; margin-bottom: 10px;">
                 <option value="" disabled selected>-- Select Service --</option>
                 <option value="hospital">🏥 Hospital</option>
                 <option value="school">🏫 School</option>
@@ -70,10 +72,13 @@
                 <option value="fire_station">🚒 Fire Station</option>
             </select>
             
-            <button id="toggleBuildBtn" onclick="toggleBuildMode()" class="btn-full">
+            <button id="builder-btn" onclick="toggleBuilderMode()" class="btn-primary" style="width: 100%;">
                 📍 Enable Build Mode
             </button>
-            <div id="mode-status">Status: View Only</div>
+            
+            <div id="builder-status" style="margin-top: 8px; font-size: 0.85rem; color: #666;">
+                Status: View Only
+            </div>
         </div>
 
         <div class="card">
@@ -96,4 +101,4 @@
 
     <script src="/static/app.js"></script>
 </body>
-</html>  
+</html>

@@ -56,18 +56,18 @@ $$Range = R_{base} \times \sqrt{\frac{1000}{Density_{local}}} \times \frac{Capac
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/calmLight27/binary_bandits.git
-cd binary_bandits
+cd binary_bandits```
 
 ### 2. Install Dependencies
 ``` bash
-pip install -r requirements.txt'''
+pip install -r requirements.txt```
 
 ### 3. Setting up Enviroment
 If you are using the Turso database, create a .env file in the root directory. If you are just testing offline, you can skip this step—the app will automatically use a local SQLite database.
 
 ### 4. Run the Application
-''' bash
-uvicorn main:app --reload'''
+```bash
+uvicorn main:app --reload```
 
 ***The application will start running at http://127.0.0.1:8000.***
 

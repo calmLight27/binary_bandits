@@ -1,4 +1,4 @@
-<img width="482" height="227" alt="image" src="https://github.com/user-attachments/assets/ee865610-6e0e-4113-ad06-8eb159a6c4e1" /># 🏙️ UrbanMind: Smart City Resource Allocator
+# 🏙️ UrbanMind: Smart City Resource Allocator
 
 **UrbanMind** is a full-stack Geospatial Information System (GIS) designed to help urban planners visualize, simulate, and optimize city infrastructure. 
 

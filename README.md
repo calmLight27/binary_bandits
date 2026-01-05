@@ -79,3 +79,41 @@ uvicorn main:app --reload
 2.  **Install** (Get the libraries like FastAPI and GeoPandas)
 3.  **Run** (Start the server)
 
+---
+
+## 📖 Usage Guide
+
+1.  **Upload Data:** Start at the landing page. Upload a `.zip` file containing a Shapefile (or click "Skip" to use an empty canvas).
+2.  **Analyze Gaps:**
+    * Use the **Density Slider** to simulate different population scenarios.
+    * Red circles indicate the service area of existing facilities.
+3.  **Simulate Infrastructure:**
+    * Select a service type (e.g., "Hospital") from the sidebar.
+    * Click **"📍 Enable Build Mode"**.
+    * Click on the map to place new facilities in underserved areas.
+4.  **Export Plan:**
+    * Click **"⬇ Export Shapefile"** to download your new city plan as a `.zip` file suitable for professional GIS software.
+
+
+---
+
+## 📂 Project Structure
+
+```text
+/binary_bandits
+│
+├── main.py              # Application entry point & API routes
+├── database.py          # Database connection (Turso/SQLite)
+├── models.py            # SQLAlchemy Model (UrbanResource)
+├── utils.py             # GIS logic (Shapefile processing, Range Algo)
+├── create_demo_data.py  # Test data generator
+│
+├── static/
+│   ├── style.css        # Glassmorphism UI styles
+│   └── app.js           # Leaflet Map & Frontend Logic
+│
+├── templates/
+│   ├── index.html       # Landing/Upload Page
+│   └── dashboard.html   # Main Dashboard
+│
+└── requirements.txt     # Python dependencies

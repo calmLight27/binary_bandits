@@ -113,7 +113,7 @@ We have provided a sample Shapefile for testing the application immediately.
 │
 ├── main.py              # Application entry point & API routes
 ├── database.py          # Database connection
-├── sample_data/         # <--- NEW: Contains demo shapefiles for testing
+├── sample_data/         # Contains demo shapefiles for testing
 │   └── kolkata_hospitals_demo.zip
 ├── utils.py             # GIS logic
 ├── create_demo_data.py  # Script to regenerate test data

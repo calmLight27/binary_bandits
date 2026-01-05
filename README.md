@@ -1,4 +1,4 @@
-# 🏙️ UrbanMind: Smart City Resource Allocator
+<img width="482" height="227" alt="image" src="https://github.com/user-attachments/assets/ee865610-6e0e-4113-ad06-8eb159a6c4e1" /># 🏙️ UrbanMind: Smart City Resource Allocator
 
 **UrbanMind** is a full-stack Geospatial Information System (GIS) designed to help urban planners visualize, simulate, and optimize city infrastructure. 
 
@@ -55,5 +55,25 @@ $$Range = R_{base} \times \sqrt{\frac{1000}{Density_{local}}} \times \frac{Capac
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/yourusername/urban-mind.git](https://github.com/yourusername/urban-mind.git)
-cd urban-mind
+git clone https://github.com/calmLight27/binary_bandits.git
+cd binary_bandits
+
+### 2. Install Dependencies
+''' bash
+pip install -r requirements.txt
+
+### 3. Setting up Enviroment
+If you are using the Turso database, create a .env file in the root directory. If you are just testing offline, you can skip this step—the app will automatically use a local SQLite database.
+
+### 4. Run the Application
+''' bash
+uvicorn main:app --reload
+
+***The application will start running at http://127.0.0.1:8000.***
+
+### Summary of the Flow for the User:
+1.  **Clone** (Download the code)
+2.  **Install** (Get the libraries like FastAPI and GeoPandas)
+3.  **Run** (Start the server)
+
+This is the standard "Happy Path" for any Python project!

@@ -83,7 +83,7 @@ uvicorn main:app --reload
 
 ## 📖 Usage Guide
 
-1.  **Upload Data:** Start at the landing page. Upload a `.zip` file containing a Shapefile (or click "Skip" to use an empty canvas).
+1.  **Upload Data:** Start at the landing page. Upload a `.zip` file containing a Shapefile (or click "Skip" to use an empty canvas). 
 2.  **Analyze Gaps:**
     * Use the **Density Slider** to simulate different population scenarios.
     * Red circles indicate the service area of existing facilities.
@@ -94,7 +94,16 @@ uvicorn main:app --reload
 4.  **Export Plan:**
     * Click **"⬇ Export Shapefile"** to download your new city plan as a `.zip` file suitable for professional GIS software.
 
+---
+## 🧪 Test Data (Ready to Use)
 
+We have provided a sample Shapefile for testing the application immediately.
+
+* **Location:** `sample_data/kolkata_hospitals_demo.zip`
+* **How to use:**
+    1.  Download this file from the repository (or find it in your cloned folder).
+    2.  Go to the app homepage (`http://127.0.0.1:8000`).
+    3.  Select **"Hospital"** and upload this zip file.
 ---
 
 ## 📂 Project Structure
@@ -103,17 +112,12 @@ uvicorn main:app --reload
 /binary_bandits
 │
 ├── main.py              # Application entry point & API routes
-├── database.py          # Database connection (Turso/SQLite)
-├── models.py            # SQLAlchemy Model (UrbanResource)
-├── utils.py             # GIS logic (Shapefile processing, Range Algo)
-├── create_demo_data.py  # Test data generator
+├── database.py          # Database connection
+├── sample_data/         # <--- NEW: Contains demo shapefiles for testing
+│   └── kolkata_hospitals_demo.zip
+├── utils.py             # GIS logic
+├── create_demo_data.py  # Script to regenerate test data
 │
-├── static/
-│   ├── style.css        # Glassmorphism UI styles
-│   └── app.js           # Leaflet Map & Frontend Logic
-│
-├── templates/
-│   ├── index.html       # Landing/Upload Page
-│   └── dashboard.html   # Main Dashboard
-│
-└── requirements.txt     # Python dependencies
+├── static/              # CSS & JS
+├── templates/           # HTML
+└── requirements.txt     # Dependencies

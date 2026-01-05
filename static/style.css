@@ -184,14 +184,37 @@ select#builderService {
     color: white !important;
 }
 
-/* Make the Builder Button look like the others */
-#builder-btn {
+/* =========================================
+   4. NEW BUILDER BUTTON STYLE
+   ========================================= */
+
+.btn-builder-enable {
     width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    font-weight: bold;
-    border-radius: 5px;
+    background-color: #0f172a; /* Dark Navy/Black */
+    color: white;
+    font-weight: 700; /* Bold text */
+    font-size: 14px;
     border: none;
+    border-radius: 6px; /* Rounded corners */
+    padding: 10px 16px;
     cursor: pointer;
-    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.btn-builder-enable:hover {
+    background-color: #1e293b; /* Slightly lighter on hover */
+    transform: translateY(-1px); /* Subtle lift effect */
+}
+
+.btn-builder-enable:active {
+    transform: translateY(1px); /* Click effect */
+}
+
+.btn-builder-enable .icon {
+    font-size: 1.2rem;
 }
